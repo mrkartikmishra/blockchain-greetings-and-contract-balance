@@ -1,13 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import { FaEthereum } from "react-icons/fa";
+
+import contractAddress from "./abis/contractAddress.json";
+import ABI from "./abis/Greetings.json";
 
 const App = () => {
   const [greentingInput, setGreetingInput] = useState("");
   const [depositeInput, setDepositeInput] = useState(0);
-  const [greenting, setGreeting] = useState("Kartik Mishra");
-  const [deposite, setDeposite] = useState(0.01);
-  const [currentAccount, setCurrentAccount] = useState(
-    "0x6C6c2E54BD2352Cf32761B2f042663dDE2cc2F23"
-  );
+  const [greenting, setGreeting] = useState("");
+  const [deposite, setDeposite] = useState(0);
+  const [currentAccount, setCurrentAccount] = useState("");
+
+  const { ethereum } = window;
+  const address = contractAddress.contractAddress;
+  const abi = ABI.abi;
+
+  useEffect(() => {
+    const connectWallet = async () => {
+      try {
+        if (!ethereum) {
+          console.log("Please install Metamask and continue!!");
+          return;
+        }
+
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
+
+        setCurrentAccount(accounts[0]);
+      } catch (error) {}
+    };
+
+    connectWallet();
+  }, []);
+
+  useEffect(() => {
+    getData();
+  }, [currentAccount]);
+
+  const getData = async () => {
+    if (currentAccount) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(address, abi, signer);
+      const newBalance = await provider.getBalance(address);
+      const message = await contract.getGreetngs();
+      setDeposite(ethers.utils.formatEther(newBalance));
+      setGreeting(message);
+    }
+  };
 
   const handleGreetingInputChange = (e) => {
     setGreetingInput(e.target.value);
@@ -17,14 +59,23 @@ const App = () => {
     setDepositeInput(e.target.value);
   };
 
-  const handleGreetingSubmit = (e) => {
+  const handleGreetingSubmit = async (e) => {
     e.preventDefault();
-    console.log(greentingInput);
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(address, abi, signer);
+    await contract.setGreeting(greentingInput);
+    setGreetingInput("");
   };
 
-  const handleDepositeSubmit = (e) => {
+  const handleDepositeSubmit = async (e) => {
     e.preventDefault();
-    console.log(depositeInput);
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(address, abi, signer);
+    const valueFormated = ethers.utils.parseEther(depositeInput);
+    await contract.deposite({ value: valueFormated });
+    setDepositeInput(0);
   };
 
   return (
@@ -69,9 +120,11 @@ const App = () => {
       </div>
       <div className="bg-gray w-full sm:w-1/2 md:w-1/2 rounded-r-md relative">
         <div className="flex sm:justify-end">
-          <div className="w-full bg-tertiary shadow-xl p-10 sm:rounded-lg font-semibold text-secondary">
+          <div className="w-full bg-tertiary sm:p-[30px] shadow-xl p-10 sm:rounded-lg font-semibold text-secondary">
             <h3>{greenting}</h3>
-            <p>Contract Balance: {deposite} ETH</p>
+            <p className="flex items-center">
+              Contract Balance: <FaEthereum className="ml-2" /> {deposite} ETH
+            </p>
           </div>
         </div>
         <p className="absolute right-1 bottom-1 italic text-sewcondary">
