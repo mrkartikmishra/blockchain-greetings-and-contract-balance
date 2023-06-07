@@ -26,7 +26,7 @@ const App = () => {
   };
 
   return (
-    <div className="bg-black h-screen sm:h-screen flex flex-col-reverse sm:flex-row justify-end sm:justify-around p-10 font-roboto">
+    <div className="bg-black h-screen sm:h-screen flex flex-col-reverse sm:flex-row justify-center sm:justify-around p-10 font-roboto">
       <div className="bg-gray w-full sm:w-1/2 sm:rounded-l-md">
         <form
           onSubmit={handleGreetingSubmit}
