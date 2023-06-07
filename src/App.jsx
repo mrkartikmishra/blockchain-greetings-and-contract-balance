@@ -80,7 +80,7 @@ const App = () => {
 
   return (
     <div className="bg-black h-screen sm:h-screen flex flex-col-reverse sm:flex-row justify-center sm:justify-around p-10 font-roboto">
-      <div className="bg-gray w-full sm:w-1/2 sm:rounded-l-md">
+      <div className="bg-gray w-full sm:w-1/2 sm:rounded-l-md relative">
         <form
           onSubmit={handleGreetingSubmit}
           className="flex flex-col gap-3 flex-start p-10"
@@ -117,17 +117,7 @@ const App = () => {
             Deposite
           </button>
         </form>
-      </div>
-      <div className="bg-gray w-full sm:w-1/2 md:w-1/2 rounded-r-md relative">
-        <div className="flex sm:justify-end">
-          <div className="w-full bg-tertiary sm:p-[30px] shadow-xl p-10 sm:rounded-lg font-semibold text-secondary">
-            <h3>{greenting}</h3>
-            <p className="flex items-center">
-              Contract Balance: <FaEthereum className="ml-2" /> {deposite} ETH
-            </p>
-          </div>
-        </div>
-        <p className="absolute right-1 bottom-1 italic text-sewcondary">
+        <p className="absolute left-1 bottom-1 italic text-sewcondary">
           {currentAccount ? (
             <span className="text-green-700">{`connected: ${currentAccount.slice(
               0,
@@ -140,6 +130,16 @@ const App = () => {
             <span className="text-red-700">Not connected</span>
           )}
         </p>
+      </div>
+      <div className="bg-gray w-full sm:w-1/2 md:w-1/2 rounded-r-md">
+        <div className="flex sm:justify-end">
+          <div className="w-full bg-tertiary sm:p-[30px] shadow-xl p-10 sm:rounded-lg font-semibold text-secondary">
+            <h3>{greenting}</h3>
+            <p className="flex items-center">
+              Contract Balance: <FaEthereum className="ml-2" /> {deposite} ETH
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
