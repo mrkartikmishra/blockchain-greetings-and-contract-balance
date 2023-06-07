@@ -5,7 +5,9 @@ const App = () => {
   const [depositeInput, setDepositeInput] = useState(0);
   const [greenting, setGreeting] = useState("Kartik Mishra");
   const [deposite, setDeposite] = useState(0.01);
-  const [currentAccount, setCurrentAccount] = useState("");
+  const [currentAccount, setCurrentAccount] = useState(
+    "0x6C6c2E54BD2352Cf32761B2f042663dDE2cc2F23"
+  );
 
   const handleGreetingInputChange = (e) => {
     setGreetingInput(e.target.value);
@@ -74,7 +76,13 @@ const App = () => {
         </div>
         <p className="absolute right-1 bottom-1 italic text-sewcondary">
           {currentAccount ? (
-            `Connected: ${currentAccount}`
+            <span className="text-green-700">{`connected: ${currentAccount.slice(
+              0,
+              3
+            )}...${currentAccount.slice(
+              currentAccount.length - 3,
+              currentAccount.length
+            )}`}</span>
           ) : (
             <span className="text-red-700">Not connected</span>
           )}
