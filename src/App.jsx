@@ -26,8 +26,8 @@ const App = () => {
   };
 
   return (
-    <div className="bg-black h-screen flex justify-between p-10 font-roboto">
-      <div className="bg-gray w-1/2 rounded-l-md">
+    <div className="bg-black h-screen flex flex-col-reverse sm:flex-row justify-around p-10 font-roboto">
+      <div className="bg-gray w-full sm:w-1/2 rounded-l-md">
         <form
           onSubmit={handleGreetingSubmit}
           className="flex flex-col gap-3 flex-start p-10"
@@ -43,7 +43,7 @@ const App = () => {
             type="submit"
             className="bg-tertiary w-full p-1 rounded-full text-primary font-semibold text-center my-2 mx-auto"
           >
-            Change Greeting
+            Change
           </button>
         </form>
         <form
@@ -65,7 +65,7 @@ const App = () => {
           </button>
         </form>
       </div>
-      <div className="bg-gray w-1/2 md:w-1/2 rounded-r-md relative">
+      <div className="bg-gray w-full sm:w-1/2 md:w-1/2 rounded-r-md relative">
         <div className="flex sm:justify-end">
           <div className="w-full bg-tertiary shadow-xl p-10 rounded-lg font-semibold text-secondary">
             <h3>{greenting}</h3>
